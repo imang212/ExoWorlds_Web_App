@@ -4,7 +4,8 @@
 
 ### Languages
 
-database: PoStgreSQL
+database: PostgreSQL
+
 backend: PHP 8 Apache
 
 HTML, JavaScript, XML, XSD 
