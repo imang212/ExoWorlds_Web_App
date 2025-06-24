@@ -6,7 +6,7 @@
 
 database: PostgreSQL (used Python for csv format preprocess)
 
-backend: PHP 8 Apache
+backend: PHP
 
 HTML, JavaScript, XML, XSD 
 
