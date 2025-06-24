@@ -1,6 +1,6 @@
-### Exoplanets web app
+# Exoplanets web app
 
-*Languages:*
+### Languages
 
 database: PoStgreSQL
 backend: PHP 8 Apache
