@@ -155,6 +155,7 @@ SELECT
     END
 FROM temp_exoplanets_2;
 
+
 CREATE TABLE exoplanets AS
 SELECT
     e.*,
@@ -165,7 +166,10 @@ FROM staging_exoplanets e
 LEFT JOIN staging_exoplanets_2 n ON LOWER(e.converted_name) = LOWER(n.pl_name);
 
 ALTER TABLE exoplanets ADD COLUMN id SERIAL PRIMARY KEY;
-
+CREATE INDEX idx_exoplanets_lower_converted_name ON exoplanets (LOWER(converted_name));
+CREATE INDEX idx_exoplanets_discovery_year ON exoplanets (discovery_year);
+CREATE INDEX idx_exoplanets_planet_type ON exoplanets (planet_type);
+CREATE INDEX idx_exoplanets_detection_method ON exoplanets (detection_method);
 
 CREATE TABLE dim_planet_type AS
 SELECT ROW_NUMBER() OVER () AS planet_type_id, planet_type
@@ -174,6 +178,7 @@ FROM (
     FROM exoplanets
     WHERE planet_type IS NOT NULL
 ) t;
+CREATE INDEX idx_dim_planet_type_type ON dim_planet_type (planet_type);
 
 CREATE TABLE dim_detection_method AS
     SELECT ROW_NUMBER() OVER () AS detection_method_id, detection_method
@@ -182,6 +187,7 @@ CREATE TABLE dim_detection_method AS
         FROM exoplanets
         WHERE detection_method IS NOT NULL
     ) t;
+CREATE INDEX idx_dim_detection_method_method ON dim_detection_method (detection_method);
 
 CREATE TABLE dim_stellar_type AS
 SELECT ROW_NUMBER() OVER () AS stellar_type_id, distance, stellar_magnitude,
@@ -197,6 +203,7 @@ FROM (
     FROM exoplanets
     WHERE distance IS NOT NULL AND stellar_magnitude IS NOT NULL
 ) t;
+CREATE INDEX idx_dim_stellar_type_dist_mag ON dim_stellar_type (distance, stellar_magnitude);
 
 CREATE TABLE dim_mass_category AS
     SELECT ROW_NUMBER() OVER () AS mass_category_id, mass_multiplier,
@@ -212,6 +219,7 @@ CREATE TABLE dim_mass_category AS
         FROM exoplanets
         WHERE mass_multiplier IS NOT NULL
     ) t;
+CREATE INDEX idx_dim_mass_category_mass ON dim_mass_category (mass_multiplier);
 
 CREATE TABLE dim_distance_category AS
     SELECT ROW_NUMBER() OVER () AS distance_category_id, distance,
@@ -226,6 +234,7 @@ CREATE TABLE dim_distance_category AS
         FROM exoplanets
         WHERE distance IS NOT NULL
     ) t;
+CREATE INDEX idx_dim_distance_category_distance ON dim_distance_category (distance);
 
 CREATE TABLE dim_orbit_category AS
     SELECT ROW_NUMBER() OVER () AS orbit_category_id, orbital_period,
@@ -240,6 +249,7 @@ CREATE TABLE dim_orbit_category AS
         FROM exoplanets
         WHERE orbital_period IS NOT NULL
     ) t;
+CREATE INDEX idx_dim_orbit_category_period ON dim_orbit_category (orbital_period);
 
 CREATE TABLE dim_brightness_category AS
     SELECT ROW_NUMBER() OVER () AS brightness_category_id, stellar_magnitude,
@@ -254,6 +264,7 @@ CREATE TABLE dim_brightness_category AS
         FROM exoplanets
         WHERE stellar_magnitude IS NOT NULL
     ) t;
+CREATE INDEX idx_dim_brightness_category_mag ON dim_brightness_category (stellar_magnitude);
 
 CREATE TABLE dim_discovery_era AS
     SELECT ROW_NUMBER() OVER () AS discovery_era_id, discovery_year,
@@ -268,6 +279,7 @@ CREATE TABLE dim_discovery_era AS
         FROM exoplanets
         WHERE discovery_year IS NOT NULL
     ) t;
+CREATE INDEX idx_dim_discovery_era_year ON dim_discovery_era (discovery_year);
 
 CREATE TABLE dim_date AS
 SELECT
@@ -283,6 +295,7 @@ FROM (
     FROM exoplanets
     WHERE releasedate IS NOT NULL
 ) t;
+CREATE INDEX idx_dim_date_date ON dim_date (date);
 
 CREATE TABLE exoplanets_full AS
 SELECT e.*,

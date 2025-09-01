@@ -365,8 +365,8 @@ $yearTo = isset($_GET['year_to']) ? htmlspecialchars($_GET['year_to']) : '';
                     <span class="tag tag-mass" style="background-color: #2563eb">${planetData.mass_category}</span>
                     <span class="tag tag-distance" style="background-color: #059669">${planetData.distance_category}</span>
                     <span class="tag tag-era" style="background-color: #7c3aed">${planetData.discovery_era}</span>
-                    <span class="tag tag-orbit" style="background-color: #ea580c">${planetData.orbit_category}</span>
-                    <span class="tag tag-brightness" style="background-color: #d97706">${planetData.brightness_category}</span>
+                    ${planetData.orbit_category ? `<span class="tag tag-orbit" style="background-color: #ea580c">${planetData.orbit_category}</span>` : ''}
+                    ${planetData.brightness_category ? `<span class="tag tag-brightness" style="background-color: #d97706">${planetData.brightness_category}</span>` : ''}
                 </div>
                 <div style="background-color: #374151; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                     <h3 style="color: #67e8f9; margin-bottom: 10px;">Zajímavosti</h3>
