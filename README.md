@@ -1,4 +1,4 @@
-# Exoplanets web app
+# Exoplanets Web App
 
 ![image](https://github.com/user-attachments/assets/0fc859d3-5dc8-4c22-835c-6e1ddf38eda1)
 
